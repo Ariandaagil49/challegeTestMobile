@@ -1,10 +1,9 @@
-import 'package:crud_software/features/domain/entities/user_entity.dart';
-import 'package:crud_software/features/domain/repositories/user_repository.dart';
+import '../entities/user_entity.dart';
+import '../repositories/user_repository.dart';
 
 class AddUserUsecase {
-  final UserRepository repository;
-  AddUserUsecase({required this.repository});
-  Future<void> execute(UserEntity user) async {
-    return await repository.addUser(user);
-  }
+  final UserRepository repo;
+  AddUserUsecase(this.repo);
+
+  Future<void> execute(UserEntity user) => repo.addUser(user);
 }

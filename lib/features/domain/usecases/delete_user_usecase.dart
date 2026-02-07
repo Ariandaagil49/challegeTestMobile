@@ -1,10 +1,8 @@
-import 'package:crud_software/features/domain/repositories/user_repository.dart';
+import '../repositories/user_repository.dart';
 
 class DeleteUserUsecase {
-  final UserRepository repository;
-  DeleteUserUsecase(this.repository);
+  final UserRepository repo;
+  DeleteUserUsecase(this.repo);
 
-  Future<void> call(String id) {
-    return repository.deleteUser(id);
-  }
+  Future<void> execute(String id) => repo.deleteUser(id);
 }

@@ -5,9 +5,9 @@ import 'config/injector.dart';
 import 'features/presentation/bloc/user_cubit.dart';
 import 'features/presentation/pages/user_list_page.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Injector().init();
+  await Injector.init();
   runApp(const MyApp());
 }
 
@@ -17,15 +17,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<UserCubit>(
-      create: (_) => Injector().userCubit..fetchUsers(),
+      create: (_) => Injector.userCubit..fetchUsers(),
       child: MaterialApp(
-        title: 'CRUD Software',
         debugShowCheckedModeBanner: false,
+        title: 'CRUD Software',
         theme: ThemeData(
           useMaterial3: true,
           colorSchemeSeed: Colors.blue,
           appBarTheme: const AppBarTheme(
-            backgroundColor: Colors.blue,
+            backgroundColor: Color.fromARGB(255, 51, 130, 144),
             foregroundColor: Colors.white,
           ),
         ),

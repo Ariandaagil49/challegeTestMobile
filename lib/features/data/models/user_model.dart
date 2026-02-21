@@ -18,28 +18,29 @@ class UserModel extends UserEntity {
     return UserModel(
       id: json['id'].toString(),
       nip: json['nip'] ?? '',
-      namaLengkap: json['namaLengkap'] ?? '',
+      namaLengkap: json['nama_lengkap'] ?? '',
       jabatan: json['jabatan'] ?? '',
-      jenisKelamin: json['jenisKelamin'] ?? '',
-      namaGolongan: json['namaGolongan'] ?? '',
-      namaPangkat: json['namaPangkat'] ?? '',
-      unitKerja: json['unitKerja'] ?? '',
+      jenisKelamin: json['jenis_kelamin'] ?? '',
+      namaGolongan: json['nama_golongan'] ?? '',
+      namaPangkat: json['nama_pangkat'] ?? '',
+      unitKerja: json['unit_kerja'] ?? '',
       skpd: json['skpd'] ?? '',
-      alamatLengkap: json['alamatLengkap'] ?? '',
+      alamatLengkap: json['alamat_lengkap'] ?? '',
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'nip': nip,
-      'namaLengkap': namaLengkap,
+      'nama_lengkap': namaLengkap,
       'jabatan': jabatan,
-      'jenisKelamin': jenisKelamin,
-      'namaGolongan': namaGolongan,
-      'namaPangkat': namaPangkat,
-      'unitKerja': unitKerja,
+      'jenis_kelamin': jenisKelamin,
+      'nama_golongan': namaGolongan,
+      'nama_pangkat': namaPangkat,
+      'unit_kerja': unitKerja,
       'skpd': skpd,
-      'alamatLengkap': alamatLengkap,
+      'alamat_lengkap': alamatLengkap,
     };
   }
 }

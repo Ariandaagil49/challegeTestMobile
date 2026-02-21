@@ -1,46 +1,54 @@
 import 'package:http/http.dart' as http;
 
+import '../features/data/datasources/user_remote_data_source.dart';
 import '../features/data/datasources/user_local_data_source.dart';
 import '../features/data/repositories/user_repository_impl.dart';
-import '../features/domain/usecases/add_user_usecase.dart';
-import '../features/domain/usecases/delete_user_usecase.dart';
+
+import '../features/domain/repositories/user_repository.dart';
 import '../features/domain/usecases/get_users_usecase.dart';
+import '../features/domain/usecases/add_user_usecase.dart';
 import '../features/domain/usecases/update_user_usecase.dart';
+import '../features/domain/usecases/delete_user_usecase.dart';
+
 import '../features/presentation/bloc/user_cubit.dart';
 
 class Injector {
-  static final Injector _instance = Injector._internal();
-  factory Injector() => _instance;
-  Injector._internal();
+  static late http.Client httpClient;
 
-  late http.Client httpClient;
+  static late UserRemoteDataSource remoteDataSource;
+  static late UserLocalDataSource localDataSource;
 
-  late UserLocalDataSource userLocalDataSource;
-  late UserRepositoryImpl userRepository;
+  static late UserRepository userRepository;
 
-  late GetUsersUsecase getUsersUsecase;
-  late AddUserUsecase addUserUsecase;
-  late DeleteUserUsecase deleteUserUsecase;
-  late UpdateUserUsecase updateUserUsecase;
+  static late GetUsersUsecase getUsersUsecase;
+  static late AddUserUsecase addUserUsecase;
+  static late UpdateUserUsecase updateUserUsecase;
+  static late DeleteUserUsecase deleteUserUsecase;
 
-  late UserCubit userCubit;
+  static late UserCubit userCubit;
 
-  void init() {
+  static Future<void> init() async {
     httpClient = http.Client();
 
-    userLocalDataSource = UserLocalDataSource();
-    userRepository = UserRepositoryImpl(local: userLocalDataSource);
+    remoteDataSource = UserRemoteDataSourceImpl(client: httpClient);
+
+    localDataSource = UserLocalDataSource();
+
+    userRepository = UserRepositoryImpl(
+      remote: remoteDataSource,
+      local: localDataSource,
+    );
 
     getUsersUsecase = GetUsersUsecase(userRepository);
     addUserUsecase = AddUserUsecase(userRepository);
-    deleteUserUsecase = DeleteUserUsecase(userRepository);
     updateUserUsecase = UpdateUserUsecase(userRepository);
+    deleteUserUsecase = DeleteUserUsecase(userRepository);
 
     userCubit = UserCubit(
       getUsersUsecase: getUsersUsecase,
       addUserUsecase: addUserUsecase,
-      deleteUserUsecase: deleteUserUsecase,
       updateUserUsecase: updateUserUsecase,
+      deleteUserUsecase: deleteUserUsecase,
     );
   }
 }

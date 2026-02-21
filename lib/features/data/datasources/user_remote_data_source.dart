@@ -31,8 +31,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
 
       if (response.statusCode == 200) {
         final decoded = json.decode(response.body);
-
-        final List<dynamic> jsonList = (decoded['data'] as List<dynamic>);
+        final List<dynamic> jsonList = decoded['data'];
         return jsonList.map((e) => UserModel.fromJson(e)).toList();
       } else {
         throw Exception(
@@ -50,7 +49,7 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       final response = await client.post(
         Uri.parse(ApiConfig.pegawaiUrl),
         headers: _headers,
-        body: json.encode(user.toJson()),
+        body: jsonEncode(user.toJson()),
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) return;
@@ -70,8 +69,9 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
       final response = await client.put(
         Uri.parse(url),
         headers: _headers,
-        body: json.encode(user.toJson()),
+        body: jsonEncode(user.toJson()),
       );
+
       if (response.statusCode == 200) return;
 
       throw Exception(
